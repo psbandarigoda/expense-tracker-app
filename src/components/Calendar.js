@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
+import moment from 'moment/moment';
 
 export class Calendar extends Component {
     constructor(props) {
@@ -17,10 +18,11 @@ export class Calendar extends Component {
 
             let transactionsInCalendarFormat = nextprops.transactionsData.map((data) => {
                 let mockObj = {
+                    id: data.trnId,
                     title: data.title + ` $${data.amount}`,
                     start: data.date,
+                    end: data.date,
                     backgroundColor: data.category.type === "INCOME" ? "green" : "red",
-                    rrule: 'FREQ=WEEKLY;INTERVAL=2;BYDAY=MO,WE,FR'
                 }
                 return mockObj;
             })
