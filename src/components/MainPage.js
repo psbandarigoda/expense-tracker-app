@@ -4,6 +4,9 @@ import React, { Component } from 'react'
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css'
 import TransactionManagement from './TransactionManagement';
+import CategoryManagement from './CategoryManagement';
+import BudgetManagement from './BudgetManagement';
+
 
 export class MainPage extends Component {
 
@@ -59,6 +62,16 @@ export class MainPage extends Component {
           {
             this.state.renderScreen === "TRANSACTION" && (
               <TransactionManagement getAllTransactions={this.getAllTransactions} />
+            )
+          }
+          {
+            this.state.renderScreen === "CATEGORY" && (
+              <CategoryManagement getAllTransactions={this.getAllTransactions} />
+            )
+          }
+          {
+            this.state.renderScreen === "BUDGET" && (
+              <BudgetManagement getAllTransactions={this.getAllTransactions} />
             )
           }
         </div>
