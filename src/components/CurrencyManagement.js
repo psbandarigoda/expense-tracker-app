@@ -6,92 +6,86 @@ import React, { Component } from 'react'
 import Calendar from './Calendar';
 import toastr from 'toastr';
 
-export class BudgetManagement extends Component {
+export class CurrencyManagement extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            code: "",
+            symbol: "",
             name: "",
-            alertAmount: "",
-            totalBudgetAmount: "",
 
             // categoriesData: [],
             // recurrentTypes: [],
-
-            // transactionsData: [],
-            // transactionsDataError: "Warning Fetching All Transactions :(",
+            // categoryType: "INCOME",
 
             transactionsData: [],
             transactionsDataError: "Warning Fetching All Transactions :(",
-
-            budgetData: [],
-            budgetDataError: "Warning Fetching All Budget Data :(",
         }
     }
 
     componentDidMount() {
         this.getAllTransactions();
-        this.getAllBudget();
-        // this.getAllCategories();
-        // this.getAllRecurrentTypes();
+        this.getAllCategories();
+        this.getAllRecurrentTypes();
     }
 
     //METHOD TO GET ALL CATEGORIES
-    // getAllCategories() {
-    //     axios.get('http://localhost:8080/category')
-    //         .then((res) => {
-    //             if (res.status === 200) {
+    getAllCategories() {
+        axios.get('http://localhost:8080/category')
+            .then((res) => {
+                if (res.status === 200) {
 
-    //                 toastr.success("Successfully Fetched Categories.")
-    //                 this.setState({
-    //                     categoriesData: res.data.filter((data) => {
-    //                         if (data.type === this.state.categoryType) {
-    //                             return data;
-    //                         }
-    //                     }),
-    //                 })
+                    toastr.success("Successfully Fetched Categories.")
+                    this.setState({
+                        categoriesData: res.data.filter((data) => {
+                            if (data.type === this.state.categoryType) {
+                                return data;
+                            }
+                        }),
+                    })
 
-    //             } else {
-    //                 toastr.warning("Warning on Fetching Categories.")
+                } else {
+                    toastr.warning("Warning on Fetching Categories.")
 
-    //                 this.setState({
-    //                     categoriesData: [],
-    //                 })
+                    this.setState({
+                        categoriesData: [],
+                    })
 
-    //             }
-    //         }).catch((error) => {
-    //             toastr.warning("Error on Fetching Categories.")
-    //             this.setState({
-    //                 categoriesData: [],
-    //             })
-    //         })
-    // }
+                }
+            }).catch((error) => {
+                toastr.warning("Error on Fetching Categories.")
+                this.setState({
+                    categoriesData: [],
+                })
+            })
+    }
 
     //METHOD TO GET ALL RECURRENT TYPES
-    // getAllRecurrentTypes() {
-    //     axios.get('http://localhost:8080/recurrent-types')
-    //         .then((res) => {
-    //             if (res.status === 200) {
+    getAllRecurrentTypes() {
+        axios.get('http://localhost:8080/recurrent-types')
+            .then((res) => {
+                if (res.status === 200) {
 
-    //                 toastr.success("Successfully Fetched Recurrent Types.")
-    //                 this.setState({
-    //                     recurrentTypes: res.data,
-    //                 })
+                    toastr.success("Successfully Fetched Recurrent Types.")
+                    this.setState({
+                        recurrentTypes: res.data,
+                    })
 
-    //             } else {
-    //                 toastr.warning("Warning on Fetching Recurrent Types.")
+                } else {
+                    toastr.warning("Warning on Fetching Recurrent Types.")
 
-    //                 this.setState({
-    //                     recurrentTypes: [],
-    //                 })
+                    this.setState({
+                        recurrentTypes: [],
+                    })
 
-    //             }
-    //         }).catch((error) => {
-    //             toastr.warning("Error on Fetching Recurrent Types.")
-    //             this.setState({
-    //                 recurrentTypes: [],
-    //             })
-    //         })
-    // }
+                }
+            }).catch((error) => {
+                toastr.warning("Error on Fetching Recurrent Types.")
+                this.setState({
+                    recurrentTypes: [],
+                })
+            })
+    }
 
     handleChange = (value, name) => {
         this.setState({
@@ -108,11 +102,11 @@ export class BudgetManagement extends Component {
         })
     }
 
-    createBudget = () => {
-        axios.post('http://localhost:8080/budget', {
-            "name": this.state.name,
-            "alertAmount": this.state.alertAmount,
-            "totalBudgetAmount": this.state.totalBudgetAmount
+    createTransaction = () => {
+        axios.post('http://localhost:8080/transaction', {
+            "code": this.state.code,
+            "symbol": this.state.symbol,
+            "name": this.state.name
         })
             .then((res) => {
                 if (res.status === 200) {
@@ -130,12 +124,9 @@ export class BudgetManagement extends Component {
 
     resetFields = () => {
         this.setState({
+            code: "",
+            symbol: "",
             name: "",
-            alertAmount: "",
-            totalBudgetAmount: "",
-
-            categoriesData: [],
-            recurrentTypes: [],
         }, () => {
             this.getAllCategories();
             this.getAllRecurrentTypes();
@@ -177,52 +168,33 @@ export class BudgetManagement extends Component {
 
     }
 
-    //METHOD TO CALL A SAMPLE GET ALL Budget
-    getAllBudget() {
-        this.setState({
-            budgetData: [],
-            budgetDataError: "LOADING",
-        }, () => {
-            axios.get('http://localhost:8080/budget')
-                .then((res) => {
-                    if (res.status === 200) {
-                        toastr.success("Successfully Fetched All Transactions");
-                        this.setState({
-                            budgetData: res.data,
-                            budgetDataError: "",
-                        }, () => {
-                            this.resetFields();
-                        })
-                    } else {
-                        toastr.warning("Transactions Fetch Warning!");
-                        this.setState({
-                            budgetData: [],
-                            budgetDataError: "Warning Fetching All Transactions :(",
-                        })
-                    }
-
-                }).catch((error) => {
-                    toastr.error("Error Fetching All Transactions !");
-                    this.setState({
-                        budgetData: [],
-                        budgetDataError: "Error Fetching All Transactions :(",
-                    })
-                })
-        })
-
-    }
-
 
     render() {
         return (
             <>
 
-                <h1 style={{ textDecoration: "underline" }}>Budget Management</h1>
+                <h1 style={{ textDecoration: "underline" }}>Currency Management</h1>
 
                 <div>
 
                     <div style={{ marginTop: "10px", marginBottom: "20px" }}>
+
                         <Row>
+                            <Col className='inputColStyle'>
+                                <span style={{ fontSize: "20px", marginBottom: "5px" }}>Code</span>
+                                <Input onChange={(e) => {
+                                    this.handleChange(e.target.value, "code")
+                                }} value={this.state.code} style={{ height: "52px", fontSize: "18px" }} />
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col className='inputColStyle'>
+                                <span style={{ fontSize: "20px", marginBottom: "5px" }}>Symbol</span>
+                                <Input onChange={(e) => {
+                                    this.handleChange(e.target.value, "symbol")
+                                }} value={this.state.symbol} style={{ height: "52px", fontSize: "18px" }} />
+                            </Col>
                             <Col className='inputColStyle'>
                                 <span style={{ fontSize: "20px", marginBottom: "5px" }}>Name</span>
                                 <Input onChange={(e) => {
@@ -231,29 +203,14 @@ export class BudgetManagement extends Component {
                             </Col>
                         </Row>
 
-                        <Row>
-                            <Col className='inputColStyle'>
-                                <span style={{ fontSize: "20px", marginBottom: "5px" }}>Alert Amount</span>
-                                <Input onChange={(e) => {
-                                    this.handleChange(e.target.value, "alertAmount")
-                                }} value={this.state.alertAmount} type='number' style={{ height: "52px", fontSize: "18px" }} />
-                            </Col>
-                            <Col className='inputColStyle'>
-                                <span style={{ fontSize: "20px", marginBottom: "5px" }}>Total Budget Amount</span>
-                                <Input onChange={(e) => {
-                                    this.handleChange(e.target.value, "totalBudgetAmount")
-                                }} value={this.state.totalBudgetAmount} type='number' style={{ height: "52px", fontSize: "18px" }} />
-                            </Col>
-                        </Row>
-
                         <div style={{ display: "flex", justifyContent: "center", marginTop: "30px", marginBottom: "50px" }}>
                             <div>
                                 <Button onClick={() => {
-                                    this.createBudget();
+                                    this.createTransaction();
                                 }} style={{
                                     fontSize: "20px", width: "fit-content", height: "fit-content", backgroundColor: "lightgreen",
                                     color: "black", fontWeight: "bold", border: "1px solid transparent", borderRadius: "10px"
-                                }}>CREATE BUDGET</Button>
+                                }}>CREATE TRANSACTION</Button>
                             </div>
 
                             <div>
@@ -283,4 +240,4 @@ export class BudgetManagement extends Component {
     }
 }
 
-export default BudgetManagement
+export default CurrencyManagement

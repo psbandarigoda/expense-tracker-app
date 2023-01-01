@@ -6,6 +6,7 @@ import 'toastr/build/toastr.min.css'
 import TransactionManagement from './TransactionManagement';
 import CategoryManagement from './CategoryManagement';
 import BudgetManagement from './BudgetManagement';
+import CurrencyManagement from './CurrencyManagement';
 
 
 export class MainPage extends Component {
@@ -13,6 +14,7 @@ export class MainPage extends Component {
   state = {
     transactionsData: [],
     transactionsDataError: "",
+    categoriesDataError:"",
 
     renderScreen: "TRANSACTION",
   }
@@ -72,6 +74,11 @@ export class MainPage extends Component {
           {
             this.state.renderScreen === "BUDGET" && (
               <BudgetManagement getAllTransactions={this.getAllTransactions} />
+            )
+          }
+          {
+            this.state.renderScreen === "CURRENCY" && (
+              <CurrencyManagement getAllTransactions={this.getAllTransactions} />
             )
           }
         </div>
