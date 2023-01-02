@@ -6,6 +6,14 @@ import React, { Component } from 'react'
 import Calendar from './Calendar';
 import toastr from 'toastr';
 
+const BudgetTable = props => (
+    <tr>
+        <td>{props.budgetTable.name}</td>
+        <td>{props.budgetTable.alertAmount}</td>
+        <td>{props.budgetTable.totalBudgetAmount}</td>
+    </tr>
+)
+
 export class BudgetManagement extends Component {
     constructor(props) {
         super(props);
@@ -116,14 +124,14 @@ export class BudgetManagement extends Component {
         })
             .then((res) => {
                 if (res.status === 200) {
-                    toastr.success("Successfully Created Transaction.");
-                    this.getAllTransactions();
+                    toastr.success("Successfully Created Budget.");
+                    this.getAllBudget();
                 } else {
-                    toastr.warning("Warning on Creating Transaction.");
+                    toastr.warning("Warning on Creating Budget.");
                 }
             }).catch((error) => {
                 console.log(error, "ERROR")
-                toastr.error("Error on Creating Transaction.");
+                toastr.error("Error on Creating Budget.");
             })
 
     }
@@ -134,11 +142,11 @@ export class BudgetManagement extends Component {
             alertAmount: "",
             totalBudgetAmount: "",
 
-            categoriesData: [],
-            recurrentTypes: [],
+            // categoriesData: [],
+            // recurrentTypes: [],
         }, () => {
-            this.getAllCategories();
-            this.getAllRecurrentTypes();
+            // this.getAllCategories();
+            // this.getAllRecurrentTypes();
         })
     }
 
@@ -212,6 +220,12 @@ export class BudgetManagement extends Component {
 
     }
 
+    BudgetList = () => {
+        return this.state.budgetData.map((budget, i) => {
+            return <BudgetTable budgetTable={budget} key={i}/>
+        })
+    }
+
 
     render() {
         return (
@@ -267,6 +281,23 @@ export class BudgetManagement extends Component {
                             </div>
 
                         </div>
+                    </div>
+
+                    <h2 style={{ textDecoration: "underline" }}>View BudgetList</h2>
+
+                    <div style={{ width: "100%", display: "flex", marginBottom: "100px" }}>
+                        <table style={{ width:"100%" }}>
+                            <thead>
+                            <tr>
+                                <th style={{ textAlign: "left" }}> Name</th>
+                                <th style={{ textAlign: "left" }}> Alert Amount</th>
+                                <th style={{ textAlign: "left" }}> Total Budget Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {this.BudgetList()}
+                            </tbody>
+                        </table>
                     </div>
 
                     <div style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: "100px" }}>

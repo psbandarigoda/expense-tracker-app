@@ -8,7 +8,7 @@ import toastr from 'toastr';
 
 const CategoryTable = props => (
     <tr>
-        <td>{props.categoryTable.trsId}</td>
+        {/* <td>{props.categoryTable.trsId}</td> */}
         <td>{props.categoryTable.type}</td>
         <td>{props.categoryTable.name}</td>
         <td>{props.categoryTable.iconUrl}</td>
@@ -23,13 +23,11 @@ export class CategoryManagement extends Component {
             type:"",
             name: "",
             iconUrl: "",
-            budget: "",
 
             categoriesData: [],
             categoriesDataError: "Warning Fetching All Categories Data :(",
 
-            // recurrentTypes: [],
-            // categoryType: "INCOME",
+            categoryType: "INCOME",
 
             transactionsData: [],
             transactionsDataError: "Warning Fetching All Transactions :(",
@@ -39,7 +37,6 @@ export class CategoryManagement extends Component {
     componentDidMount() {
         this.getAllTransactions();
         this.getAllCategories();
-        // this.getAllRecurrentTypes();
     }
 
     //METHOD TO GET ALL CATEGORIES
@@ -75,33 +72,6 @@ export class CategoryManagement extends Component {
             })
     }
 
-    //METHOD TO GET ALL RECURRENT TYPES
-    // getAllRecurrentTypes() {
-    //     axios.get('http://localhost:8080/recurrent-types')
-    //         .then((res) => {
-    //             if (res.status === 200) {
-
-    //                 toastr.success("Successfully Fetched Recurrent Types.")
-    //                 this.setState({
-    //                     recurrentTypes: res.data,
-    //                 })
-
-    //             } else {
-    //                 toastr.warning("Warning on Fetching Recurrent Types.")
-
-    //                 this.setState({
-    //                     recurrentTypes: [],
-    //                 })
-
-    //             }
-    //         }).catch((error) => {
-    //             toastr.warning("Error on Fetching Recurrent Types.")
-    //             this.setState({
-    //                 recurrentTypes: [],
-    //             })
-    //         })
-    // }
-
     handleChange = (value, name) => {
         this.setState({
             [name]: value
@@ -110,7 +80,6 @@ export class CategoryManagement extends Component {
                 this.getAllCategories();
 
             if (name === "date")
-                // console.log((this.state.date).toDate(), "DATE")
                 this.setState({
                     formattedDate: moment((this.state.date).toDate()).format("YYYY-MM-DDTHH:mm:ss.SSSSSSS")
                 })
@@ -121,8 +90,7 @@ export class CategoryManagement extends Component {
         axios.post('http://localhost:8080/category', {
             "type": this.state.type,
             "name": this.state.name,
-            "iconUrl": this.state.iconUrl,
-            "budget": this.state.budget
+            "iconUrl": this.state.iconUrl
         })
             .then((res) => {
                 if (res.status === 200) {
@@ -142,14 +110,11 @@ export class CategoryManagement extends Component {
         this.setState({
             name: "",
             iconUrl: "",
-            budget: "",
 
             categoriesData: [],
-            // recurrentTypes: [],
             categoryType: "INCOME",
         }, () => {
             this.getAllCategories();
-            // this.getAllRecurrentTypes();
         })
     }
 
@@ -255,13 +220,13 @@ export class CategoryManagement extends Component {
                         </div>
                     </div>
 
-                    <h2 style={{ textDecoration: "underline" }}>View Categories</h2>
+                    <h2 style={{ textDecoration: "underline" }}>View CategoryList</h2>
 
                     <div style={{ width: "100%", display: "flex", marginBottom: "100px" }}>
                         <table style={{ width:"100%" }}>
                             <thead>
                             <tr>
-                                <th style={{ textAlign: "left" }}> ID</th>
+                                {/* <th style={{ textAlign: "left" }}> ID</th> */}
                                 <th style={{ textAlign: "left" }}> type</th>
                                 <th style={{ textAlign: "left" }}> Name</th>
                                 <th style={{ textAlign: "left" }}> iconUrl</th>
