@@ -8,7 +8,6 @@ import toastr from 'toastr';
 
 const CategoryTable = props => (
     <tr>
-        {/* <td>{props.categoryTable.trsId}</td> */}
         <td>{props.categoryTable.type}</td>
         <td>{props.categoryTable.name}</td>
         <td>{props.categoryTable.iconUrl}</td>
@@ -19,8 +18,8 @@ export class CategoryManagement extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            trsId:"",
-            type:"",
+            trsId: "",
+            type: "",
             name: "",
             iconUrl: "",
 
@@ -28,14 +27,10 @@ export class CategoryManagement extends Component {
             categoriesDataError: "Warning Fetching All Categories Data :(",
 
             categoryType: "INCOME",
-
-            transactionsData: [],
-            transactionsDataError: "Warning Fetching All Transactions :(",
         }
     }
 
     componentDidMount() {
-        this.getAllTransactions();
         this.getAllCategories();
     }
 
@@ -88,7 +83,7 @@ export class CategoryManagement extends Component {
 
     createCategory = () => {
         axios.post('http://localhost:8080/category', {
-            "type": this.state.type,
+            "type": this.state.categoryType,
             "name": this.state.name,
             "iconUrl": this.state.iconUrl
         })
@@ -118,47 +113,11 @@ export class CategoryManagement extends Component {
         })
     }
 
-    //METHOD TO CALL A SAMPLE GET ALL TRANSACTIONS
-    getAllTransactions() {
-        this.setState({
-            transactionsData: [],
-            transactionsDataError: "LOADING",
-        }, () => {
-            axios.get('http://localhost:8080/transaction')
-                .then((res) => {
-                    if (res.status === 200) {
-                        toastr.success("Successfully Fetched All Transactions");
-                        this.setState({
-                            transactionsData: res.data,
-                            transactionsDataError: "",
-                        }, () => {
-                            this.resetFields();
-                        })
-                    } else {
-                        toastr.warning("Transactions Fetch Warning!");
-                        this.setState({
-                            transactionsData: [],
-                            transactionsDataError: "Warning Fetching All Transactions :(",
-                        })
-                    }
-
-                }).catch((error) => {
-                    toastr.error("Error Fetching All Transactions !");
-                    this.setState({
-                        transactionsData: [],
-                        transactionsDataError: "Error Fetching All Transactions :(",
-                    })
-                })
-        })
-
-    }
-
     CategoryList = () => {
         return this.state.categoriesData.map((category, i) => {
-            return <CategoryTable categoryTable={category} key={i}/>
+            return <CategoryTable categoryTable={category} key={i} />
         })
     }
-
 
     render() {
         return (
@@ -220,31 +179,22 @@ export class CategoryManagement extends Component {
                         </div>
                     </div>
 
-                    <h2 style={{ textDecoration: "underline" }}>View CategoryList</h2>
+                    <h2 style={{ textDecoration: "underline" }}>{this.state.categoryType} CATEGORY LIST</h2>
 
                     <div style={{ width: "100%", display: "flex", marginBottom: "100px" }}>
-                        <table style={{ width:"100%" }}>
+                        <table border={"1px solid green"} style={{ width: "100%" }}>
                             <thead>
-                            <tr>
-                                {/* <th style={{ textAlign: "left" }}> ID</th> */}
-                                <th style={{ textAlign: "left" }}> type</th>
-                                <th style={{ textAlign: "left" }}> Name</th>
-                                <th style={{ textAlign: "left" }}> iconUrl</th>
-                            </tr>
+                                <tr>
+                                    <th style={{ textAlign: "left" }}>Type</th>
+                                    <th style={{ textAlign: "left" }}>Name</th>
+                                    <th style={{ textAlign: "left" }}>ICON URL</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {this.CategoryList()}
+                                {this.CategoryList()}
                             </tbody>
                         </table>
                     </div>
-
-                    <div style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: "100px" }}>
-                        <div style={{ width:"100%", justifyContent: "center" }}>
-                            <Calendar transactionsData={this.state.transactionsData} />
-                        </div>
-                    </div>
-
-
                 </div>
 
             </>
