@@ -25,13 +25,56 @@ export class CategoryManagement extends Component {
 
             categoriesData: [],
             categoriesDataError: "Warning Fetching All Categories Data :(",
+            budgetData: [],
+            budgetDataError: "",
 
             categoryType: "INCOME",
+            budget: "",
+
+            budgetData: [],
+            budgetDataError: "Warning Fetching All Budget Data :(",
+
         }
     }
 
     componentDidMount() {
         this.getAllCategories();
+        this.getAllBudget();
+    }
+
+    //METHOD TO CALL A SAMPLE GET ALL Budget
+    getAllBudget() {
+        this.setState({
+            budgetData: [],
+            budgetDataError: "LOADING",
+        }, () => {
+            axios.get('http://localhost:8080/budget')
+                .then((res) => {
+                    if (res.status === 200) {
+                        toastr.success("Successfully Fetched All Transactions");
+                        this.setState({
+                            budgetData: res.data,
+                            budgetDataError: "",
+                        }, () => {
+                            this.resetFields();
+                        })
+                    } else {
+                        toastr.warning("Transactions Fetch Warning!");
+                        this.setState({
+                            budgetData: [],
+                            budgetDataError: "Warning Fetching All Transactions :(",
+                        })
+                    }
+
+                }).catch((error) => {
+                    toastr.error("Error Fetching All Transactions !");
+                    this.setState({
+                        budgetData: [],
+                        budgetDataError: "Error Fetching All Transactions :(",
+                    })
+                })
+        })
+
     }
 
     //METHOD TO GET ALL CATEGORIES
@@ -82,15 +125,18 @@ export class CategoryManagement extends Component {
     }
 
     createCategory = () => {
-        axios.post('http://localhost:8080/category', {
-            "type": this.state.categoryType,
-            "name": this.state.name,
-            "iconUrl": this.state.iconUrl
-        })
+        axios.post('http://localhost:8080/category',
+            {
+                "type": this.state.categoryType,
+                "name": this.state.name,
+                "iconUrl": this.state.iconUrl,
+                "budget": this.state.budget
+            })
             .then((res) => {
                 if (res.status === 200) {
                     toastr.success("Successfully Created Category.");
-                    this.getAllCategories();
+                    // this.getAllCategories();
+                    this.resetFields();
                 } else {
                     toastr.warning("Warning on Creating Category.");
                 }
@@ -155,6 +201,29 @@ export class CategoryManagement extends Component {
                             </Col>
                         </Row>
 
+                        {
+                            this.state.categoryType === "EXPENSE" && (
+                                <Row>
+                                    <Col className='inputColStyle'>
+                                        <span style={{ fontSize: "20px", marginBottom: "5px" }}>Select Budget</span>
+                                        <Select onChange={(e) => {
+                                            this.handleChange(e, "budget")
+                                        }} value={this.state.budget} style={{ height: "52px", fontSize: "18px", width: "100%" }}>
+                                            <Option value='' disabled>Select a Budget</Option>
+
+                                            {
+                                                this.state.budgetData.map((data) => {
+                                                    return (
+                                                        <Option value={data.name}>{data.name} ($ {data.totalBudgetAmount})</Option>
+                                                    )
+                                                })
+                                            }
+
+                                        </Select>
+                                    </Col>
+                                </Row>
+                            )
+                        }
 
                         <div style={{ display: "flex", justifyContent: "center", marginTop: "30px", marginBottom: "50px" }}>
                             <div>

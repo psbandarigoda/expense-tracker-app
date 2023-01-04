@@ -226,11 +226,11 @@ export class CurrencyManagement extends Component {
                         </div>
                     </div>
 
-                    <div style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: "100px" }}>
+                    {/* <div style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: "100px" }}>
                         <div style={{ width:"100%", justifyContent: "center" }}>
                             <Calendar transactionsData={this.state.transactionsData} />
                         </div>
-                    </div>
+                    </div> */}
 
 
                 </div>

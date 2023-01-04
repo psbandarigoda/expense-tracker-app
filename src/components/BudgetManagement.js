@@ -120,7 +120,8 @@ export class BudgetManagement extends Component {
         axios.post('http://localhost:8080/budget', {
             "name": this.state.name,
             "alertAmount": this.state.alertAmount,
-            "totalBudgetAmount": this.state.totalBudgetAmount
+            "totalBudgetAmount": this.state.totalBudgetAmount,
+            "budget": this.state.budget
         })
             .then((res) => {
                 if (res.status === 200) {
@@ -222,7 +223,7 @@ export class BudgetManagement extends Component {
 
     BudgetList = () => {
         return this.state.budgetData.map((budget, i) => {
-            return <BudgetTable budgetTable={budget} key={i}/>
+            return <BudgetTable budgetTable={budget} key={i} />
         })
     }
 
@@ -283,28 +284,28 @@ export class BudgetManagement extends Component {
                         </div>
                     </div>
 
-                    <h2 style={{ textDecoration: "underline" }}>View BudgetList</h2>
+                    <h2 style={{ textDecoration: "underline" }}>Budget List</h2>
 
                     <div style={{ width: "100%", display: "flex", marginBottom: "100px" }}>
-                        <table style={{ width:"100%" }}>
+                        <table style={{ width: "100%" }}>
                             <thead>
-                            <tr>
-                                <th style={{ textAlign: "left" }}> Name</th>
-                                <th style={{ textAlign: "left" }}> Alert Amount</th>
-                                <th style={{ textAlign: "left" }}> Total Budget Amount</th>
-                            </tr>
+                                <tr>
+                                    <th style={{ textAlign: "left" }}> Name</th>
+                                    <th style={{ textAlign: "left" }}> Alert Amount</th>
+                                    <th style={{ textAlign: "left" }}> Total Budget Amount</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {this.BudgetList()}
+                                {this.BudgetList()}
                             </tbody>
                         </table>
                     </div>
 
-                    <div style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: "100px" }}>
-                        <div style={{ width:"100%", justifyContent: "center" }}>
+                    {/* <div style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: "100px" }}>
+                        <div style={{ width: "100%", justifyContent: "center" }}>
                             <Calendar transactionsData={this.state.transactionsData} />
                         </div>
-                    </div>
+                    </div> */}
 
 
                 </div>

@@ -24,6 +24,8 @@ export class TransactionManagement extends Component {
 
             transactionsData: [],
             transactionsDataError: "Warning Fetching All Transactions :(",
+
+            usageText: "",
         }
     }
 
@@ -31,6 +33,7 @@ export class TransactionManagement extends Component {
         this.getAllTransactions();
         this.getAllCategories();
         this.getAllRecurrentTypes();
+        this.getAllUsage();
     }
 
     //METHOD TO GET ALL CATEGORIES
@@ -111,8 +114,8 @@ export class TransactionManagement extends Component {
             "title": this.state.title,
             "amount": this.state.amount,
             "category": this.state.category,
-            "description": this.state.description,
-            "date": this.state.formattedDate,
+            "desc": this.state.description,
+            "dateTime": this.state.formattedDate,
             "recurrentType": this.state.recurrentType
         })
             .then((res) => {
@@ -177,6 +180,36 @@ export class TransactionManagement extends Component {
                     this.setState({
                         transactionsData: [],
                         transactionsDataError: "Error Fetching All Transactions :(",
+                    })
+                })
+        })
+
+    }
+
+    getAllUsage() {
+        this.setState({
+            usageText: "",
+        }, () => {
+            axios.get('http://localhost:8080/usage')
+                .then((res) => {
+                    if (res.status === 200) {
+                        toastr.success("Successfully Fetched Usage");
+                        this.setState({
+                            usageText: (res.data).toString(),
+                        }, () => {
+                            this.resetFields();
+                        })
+                    } else {
+                        toastr.warning("Usage Fetch Warning!");
+                        this.setState({
+                            usageText: "",
+                        })
+                    }
+
+                }).catch((error) => {
+                    toastr.error("Error Fetching Usage !");
+                    this.setState({
+                        usageText: "",
                     })
                 })
         })
@@ -296,8 +329,27 @@ export class TransactionManagement extends Component {
                         </div>
                     </div>
 
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "30px" }}>
+
+                        <div style={{ width: "50%" }}>
+                            <h3 style={{ textDecoration: "underline" }}>Budget Progress</h3>
+
+                        </div>
+
+                        <div>
+                            <h3 style={{ textDecoration: "underline" }}>Budget Usage</h3>
+
+                            <div>
+                                {this.state.usageText}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
                     <div style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: "100px" }}>
-                        <div style={{ width:"100%", justifyContent: "center" }}>
+                        <div style={{ width: "100%", justifyContent: "center" }}>
                             <Calendar transactionsData={this.state.transactionsData} />
                         </div>
                     </div>
