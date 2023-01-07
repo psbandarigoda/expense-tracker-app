@@ -119,7 +119,7 @@ export class TransactionManagement extends Component {
             "recurrentType": this.state.recurrentType
         })
             .then((res) => {
-                if (res.status === 200) {
+                if (res.status === 201) {
                     toastr.success("Successfully Created Transaction.");
                     this.getAllTransactions();
                 } else {
