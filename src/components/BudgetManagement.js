@@ -109,7 +109,6 @@ export class BudgetManagement extends Component {
                 this.getAllCategories();
 
             if (name === "date")
-                // console.log((this.state.date).toDate(), "DATE")
                 this.setState({
                     formattedDate: moment((this.state.date).toDate()).format("YYYY-MM-DDTHH:mm:ss.SSSSSSS")
                 })
@@ -124,14 +123,13 @@ export class BudgetManagement extends Component {
             "budget": this.state.budget
         })
             .then((res) => {
-                if (res.status === 200) {
+                if (res.status === 201) {
                     toastr.success("Successfully Created Budget.");
                     this.getAllBudget();
                 } else {
                     toastr.warning("Warning on Creating Budget.");
                 }
             }).catch((error) => {
-                console.log(error, "ERROR")
                 toastr.error("Error on Creating Budget.");
             })
 

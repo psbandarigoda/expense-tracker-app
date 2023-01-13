@@ -133,7 +133,7 @@ export class CategoryManagement extends Component {
                 "budget": this.state.budget
             })
             .then((res) => {
-                if (res.status === 200) {
+                if (res.status === 201) {
                     toastr.success("Successfully Created Category.");
                     // this.getAllCategories();
                     this.resetFields();
@@ -141,7 +141,7 @@ export class CategoryManagement extends Component {
                     toastr.warning("Warning on Creating Category.");
                 }
             }).catch((error) => {
-                console.log(error, "ERROR")
+                // console.log(error, "ERROR")
                 toastr.error("Error on Creating Category.");
             })
 

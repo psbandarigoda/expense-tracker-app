@@ -116,7 +116,7 @@ export class CurrencyManagement extends Component {
                     toastr.warning("Warning on Creating Transaction.");
                 }
             }).catch((error) => {
-                console.log(error, "ERROR")
+                // console.log(error, "ERROR")
                 toastr.error("Error on Creating Transaction.");
             })
 

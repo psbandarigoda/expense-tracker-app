@@ -20,6 +20,7 @@ export class TransactionManagement extends Component {
 
             categoriesData: [],
             recurrentTypes: [],
+            progressArray: [],
             categoryType: "INCOME",
 
             transactionsData: [],
@@ -34,6 +35,7 @@ export class TransactionManagement extends Component {
         this.getAllCategories();
         this.getAllRecurrentTypes();
         this.getAllUsage();
+        this.getBudgetProgress();
     }
 
     //METHOD TO GET ALL CATEGORIES
@@ -122,11 +124,13 @@ export class TransactionManagement extends Component {
                 if (res.status === 201) {
                     toastr.success("Successfully Created Transaction.");
                     this.getAllTransactions();
+                    this.getBudgetProgress();
+                    this.getAllUsage();
                 } else {
                     toastr.warning("Warning on Creating Transaction.");
                 }
             }).catch((error) => {
-                console.log(error, "ERROR")
+                // console.log(error, "ERROR")
                 toastr.error("Error on Creating Transaction.");
             })
 
@@ -210,6 +214,34 @@ export class TransactionManagement extends Component {
                     toastr.error("Error Fetching Usage !");
                     this.setState({
                         usageText: "",
+                    })
+                })
+        })
+
+    }
+
+    getBudgetProgress() {
+        this.setState({
+            progressArray: [],
+        }, () => {
+            axios.get('http://localhost:8080/progress')
+                .then((res) => {
+                    if (res.status === 200) {
+                        toastr.success("Successfully Fetched Progress");
+                        this.setState({
+                            progressArray: (res.data),
+                        })
+                    } else {
+                        toastr.warning("Progress Fetch Warning!");
+                        this.setState({
+                            progressArray: [],
+                        })
+                    }
+
+                }).catch((error) => {
+                    toastr.error("Error Fetching Progress !");
+                    this.setState({
+                        progressArray: [],
                     })
                 })
         })
@@ -333,6 +365,15 @@ export class TransactionManagement extends Component {
 
                         <div style={{ width: "50%" }}>
                             <h3 style={{ textDecoration: "underline" }}>Budget Progress</h3>
+
+                            {
+                                this.state.progressArray.map((data) => {
+                                    // console.log(data, "DATA")
+                                    return (
+                                        <p>{data}</p>
+                                    )
+                                })
+                            }
 
                         </div>
 

@@ -54,7 +54,7 @@ export class Calendar extends Component {
             this.setState({
                 transactionsInCalendarFormat
             }, () => {
-                console.log(transactionsInCalendarFormat, "TRANAS")
+                // console.log(transactionsInCalendarFormat, "TRANAS")
             })
 
         }
@@ -63,19 +63,19 @@ export class Calendar extends Component {
 
     eventClick = (e) => {
 
-        console.log(e, "EVENT CLICK")
+        // console.log(e, "EVENT CLICK")
         let title = e.event._def.title;
         let id = e.event._def.publicId;
 
         let transactionData = [];
-        console.log(this.state.transactionsData, "TRANS DATA")
+        // console.log(this.state.transactionsData, "TRANS DATA")
         transactionData = this.state.transactionsData.filter((data) => {
             if (data.trnId === id) {
                 return transactionData;
             }
         });
 
-        console.log(transactionData, "EVENT CLICK TRANSACTION DATA")
+        // console.log(transactionData, "EVENT CLICK TRANSACTION DATA")
 
         if (transactionData.length === 1) {
 
@@ -216,7 +216,7 @@ export class Calendar extends Component {
             dateTime: this.state.date,
             recurrentType: this.state.selectedTransactionData.recurrentType,
         }
-        console.log(payload, "ON UPDATE PAYLOAD")
+        // console.log(payload, "ON UPDATE PAYLOAD")
         this.onEditTransaction(payload);
     }
 
