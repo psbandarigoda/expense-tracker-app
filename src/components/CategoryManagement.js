@@ -14,7 +14,7 @@ const CategoryTable = props => (
                 <td>{props.categoryTable.budget?.name + " - $" + props.categoryTable.budget?.totalBudgetAmount}</td>
             ) : <td> - </td>
         }
-        <td>{props.categoryTable.iconUrl}</td>
+        {/* <td>{props.categoryTable.iconUrl}</td> */}
     </tr>
 )
 
@@ -258,7 +258,7 @@ export class CategoryManagement extends Component {
                                     <th style={{ textAlign: "left" }}>Type</th>
                                     <th style={{ textAlign: "left" }}>Name</th>
                                     <th style={{ textAlign: "left" }}>Budget</th>
-                                    <th style={{ textAlign: "left" }}>ICON URL</th>
+                                    {/* <th style={{ textAlign: "left" }}>ICON URL</th> */}
                                 </tr>
                             </thead>
                             <tbody>
