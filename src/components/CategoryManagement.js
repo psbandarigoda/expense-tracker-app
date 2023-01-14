@@ -1,15 +1,19 @@
-import { Button, Col, DatePicker, Input, Row, Select } from 'antd'
+import { Button, Col, Input, Row, Select } from 'antd'
 import { Option } from 'antd/es/mentions';
 import axios from 'axios';
 import moment from 'moment/moment';
 import React, { Component } from 'react'
-import Calendar from './Calendar';
 import toastr from 'toastr';
 
 const CategoryTable = props => (
     <tr>
         <td>{props.categoryTable.type}</td>
         <td>{props.categoryTable.name}</td>
+        {
+            props.categoryTable.type === "EXPENSE" ? (
+                <td>{props.categoryTable.budget?.name + " - $" + props.categoryTable.budget?.totalBudgetAmount}</td>
+            ) : <td> - </td>
+        }
         <td>{props.categoryTable.iconUrl}</td>
     </tr>
 )
@@ -30,9 +34,6 @@ export class CategoryManagement extends Component {
 
             categoryType: "INCOME",
             budget: "",
-
-            budgetData: [],
-            budgetDataError: "Warning Fetching All Budget Data :(",
 
         }
     }
@@ -256,6 +257,7 @@ export class CategoryManagement extends Component {
                                 <tr>
                                     <th style={{ textAlign: "left" }}>Type</th>
                                     <th style={{ textAlign: "left" }}>Name</th>
+                                    <th style={{ textAlign: "left" }}>Budget</th>
                                     <th style={{ textAlign: "left" }}>ICON URL</th>
                                 </tr>
                             </thead>

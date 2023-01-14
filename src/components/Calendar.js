@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import moment from 'moment/moment';
-import { Button, Col, DatePicker, Input, Modal, Row, Select } from 'antd';
+import { Button, Col, Input, Modal, Row, Select } from 'antd';
 import toastr from 'toastr';
 import axios from 'axios';
 import { Option } from 'antd/es/mentions';

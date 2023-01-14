@@ -1,7 +1,5 @@
 import { Button } from 'antd';
-import axios from 'axios';
 import React, { Component } from 'react'
-import toastr from 'toastr';
 import 'toastr/build/toastr.min.css'
 import TransactionManagement from './TransactionManagement';
 import CategoryManagement from './CategoryManagement';
