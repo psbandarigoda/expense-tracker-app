@@ -116,8 +116,8 @@ export class BudgetManagement extends Component {
     createBudget = () => {
         axios.post('http://localhost:8080/budget', {
             "name": this.state.name,
-            "alertAmount": this.state.alertAmount,
-            "totalBudgetAmount": this.state.totalBudgetAmount,
+            "alertAmount": parseFloat(this.state.alertAmount),
+            "totalBudgetAmount": parseFloat(this.state.totalBudgetAmount),
             "budget": this.state.budget
         })
             .then((res) => {

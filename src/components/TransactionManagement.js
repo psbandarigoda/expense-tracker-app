@@ -114,7 +114,7 @@ export class TransactionManagement extends Component {
     createTransaction = () => {
         axios.post('http://localhost:8080/transaction', {
             "title": this.state.title,
-            "amount": this.state.amount,
+            "amount": parseFloat(this.state.amount),
             "category": this.state.category,
             "desc": this.state.description,
             "dateTime": this.state.formattedDate,
